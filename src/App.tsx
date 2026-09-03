@@ -10,6 +10,10 @@ function App() {
     <>
       <Header />
       <HomePage />
+      {/* Option 1: Display Calendar in HomePage 
+      Logic will stay in HomePage*/}
+      {/* Option 2: Display Calendar here once user logs in 
+      Will need to send callback function*/}
       <Footer />
     </>
   )
