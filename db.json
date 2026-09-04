@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "jeff@gmail.com",
+      "password": "12345678",
+      "fName": "Jeff",
+      "lName": "Thao",
+      "invitedList": [],
+      "acceptedList": [],
+      "declinedList": []
+    },
+    {
+      "id": 2,
+      "email": "thao@gmail.com",
+      "password": "12345678",
+      "fName": "Thao",
+      "lName": "Jeff",
+      "invitedList": [],
+      "acceptedList": [],
+      "declinedList": []
+    }
+  ],
+  "events": []
+}

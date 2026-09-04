@@ -1,4 +1,7 @@
 import { useState } from "react"
+import { checkUserByEmailAndPassword, createUser, getUser } from '../api/user'
+import type { User } from "../utils/data"
+import Calendar from "./Calendar"
 
 
 
@@ -22,31 +25,118 @@ export default function HomePage(){
             const [password, setPassword] = useState<string>("")
             const [fName, setFName] = useState<string>("")
             const [lName, setLName] = useState<string>("")
-    
+            const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+            // const [logginError, setlogginError] = useState<boolean>(false)
+            const [isSignUp, setIsSignUp] = useState<boolean>(false)
+            const [errorMessage, setErrorMessage] = useState<string | null>(null)
+            const [loggedInUser, setLoggedInUser] = useState<User | null>(null)
+
+
+            async function handleLogIn(e){
+                e.preventDefault()
+                const user: User = await checkUserByEmailAndPassword(email, password)
+                if(!user[0]){
+                    setErrorMessage('Account not found with that email and password combination.')
+                    // setlogginError(true)
+                    return
+                }
+                setLoggedInUser(user[0])
+                setIsLoggedIn(true)
+                setErrorMessage(null)
+                // setlogginError(false)
+                setIsSignUp(false)
+            }
+
+            async function handleSignUp(e){
+                e.preventDefault()
+                setIsSignUp(true)
+
+                if(isSignUp){
+                    successfulSignUp(e)
+                }
+            }
+
+            async function successfulSignUp(e){
+                e.preventDefault()
+                const user: User[] = await getUser(email)
+                if (user.length > 0) {
+                    setErrorMessage('Account already exist. Please log in.')
+                    return
+                }
+                 // check '@' in email
+                if(!email.includes('@')) {
+                    setErrorMessage('Please input an email.')
+                    return
+                } 
+                 // check password length
+                if(password.length < 8) {
+                    setErrorMessage('Password needs to be 8 or more characters.')
+                    return   
+                } 
+                // check if first and last name is entered
+                if (fName === '' || lName === ''){
+                    setErrorMessage('Please enter your first and last name.')
+                    return 
+                }
+
+                // sign up is good
+                setLoggedInUser(await createUser(email, password, fName, lName))
+                console.log(loggedInUser)
+                setErrorMessage(null)
+                setIsLoggedIn(true)
+                setIsSignUp(false)
+
+            }
+
+            function handleLogOut(e){
+                e.preventDefault()
+                setIsLoggedIn(false)
+                setLoggedInUser(null)
+                setEmail('')
+                setPassword('')
+                setLName('')
+                setFName('')
+                
+            }
+
 
     return(
         <>
-        <form className="flex ">
-            <label htmlFor="email-input" className="m-1">Email:</label>
-            <input className="m-1" name="email-input" type="email" placeholder="@email.com" value={email} onChange={(text) => setEmail(text.target.value.trim())}></input>
-            <br/>
-            <label htmlFor="password-input" className="m-1">Password:</label>
-            <input className="m-1" name="password-input" type="password" placeholder="Enter password" value={password} onChange={(text) => setPassword(text.target.value.trim())}></input>
-            {
-            // If isSignUp = true
-            // Then show first name and last name input
+        { !isLoggedIn && (
             <div>
-            <label htmlFor="firstName-input" className="m-1">First name:</label>
-            <input className="m-1" name="firstName-input" type="text" placeholder="First name" value={fName} onChange={(text) => setFName(text.target.value.trim())}></input>
-            <br/>
-            <label htmlFor="lastName-input" className="m-1">Last name:</label>
-            <input className="m-1" name="lastName-input" type="text" placeholder="Last name" value={lName} onChange={(text) => setLName(text.target.value.trim())}></input>
-            </div>
-            }
-        </form>
-
-
-        {/* If user logs in, display <Calendar /> */}
+                {errorMessage && <p className="bg-red-300 text-black">{errorMessage}</p>}
+                <form className=" ">
+                    <label htmlFor="email-input" className="m-1">Email:</label>
+                    <input className="m-1" name="email-input" type="email" placeholder="@email.com" value={email} onChange={(text) => setEmail(text.target.value.trim())}></input>
+                    <br/>
+                    <label htmlFor="password-input" className="m-1">Password:</label>
+                    <input className="m-1" name="password-input" type="password" placeholder="Enter password" value={password} onChange={(text) => setPassword(text.target.value.trim())}></input>
+                    { 
+                        isSignUp &&
+                        <div>
+                        <br />
+                        <p>Enter your first name and your last name to sign up.</p>
+                        <label htmlFor="firstName-input" className="m-1">First name:</label>
+                        <input className="m-1" name="firstName-input" type="text" placeholder="First name" value={fName} onChange={(text) => setFName(text.target.value.trim())}></input>
+                        <br/>
+                        <label htmlFor="lastName-input" className="m-1">Last name:</label>
+                        <input className="m-1" name="lastName-input" type="text" placeholder="Last name" value={lName} onChange={(text) => setLName(text.target.value.trim())}></input>
+                        
+                    </div> }
+                    <button className="m-1 p-1" onClick={handleSignUp}>Sign up</button>
+                    <button className="m-1 p-1" onClick={handleLogIn}>Log in</button>
+                </form>
+            </div> )
+        }
+        { isLoggedIn && 
+        <div>
+            <div>
+                <span>Hello {}</span>
+                <button onClick={handleLogOut}>Log out</button>
+                </div>
+            <Calendar /> 
+        </div>
+        }
         </>
     )
 }
