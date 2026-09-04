@@ -23,4 +23,10 @@ export interface EventInvite {
     acceptedList: [],
     declineList: []
 }
-
+ export interface InvitedUser {
+    id: number,
+    userId: string,
+    email: string,
+    fName: string,
+    lName: string
+ }

@@ -34,6 +34,8 @@ export default function HomePage(){
 
             async function handleLogIn(e){
                 e.preventDefault()
+                // remove after testing and working on Calendar
+                setIsLoggedIn(true)
                 const user: User = await checkUserByEmailAndPassword(email, password)
                 if(!user[0]){
                     setErrorMessage('Account not found with that email and password combination.')
@@ -123,8 +125,9 @@ export default function HomePage(){
                         <input className="m-1" name="lastName-input" type="text" placeholder="Last name" value={lName} onChange={(text) => setLName(text.target.value.trim())}></input>
                         
                     </div> }
-                    <button className="m-1 p-1" onClick={handleSignUp}>Sign up</button>
-                    <button className="m-1 p-1" onClick={handleLogIn}>Log in</button>
+                    <button className="m-1 p-1 border text-black border-emerald-600 bg-emerald-500" onClick={handleLogIn}>Log in</button>
+                    <button className="m-1 p-1 border text-black border-emerald-600 bg-emerald-500" onClick={handleSignUp}>Sign up</button>
+                    
                 </form>
             </div> )
         }
