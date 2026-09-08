@@ -30,3 +30,5 @@ export interface EventInvite {
     fName: string,
     lName: string
  }
+
+ export type UpdateEventPayload = Partial<Omit<Event, 'id' | 'userId'>>;
