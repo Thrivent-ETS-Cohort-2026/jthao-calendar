@@ -1,64 +1,68 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Day from './Day'
 
 
-export default function Calendar(){
+export default function Calendar() {
 
-    // const [calWeek, setCalWeek] = useState<string[]>([])
+    const [calWeek, setCalWeek] = useState<Date[]>([])
+    const [weekCount, setWeekCount] = useState<number>(0)
+
+
+    function getSunday(count: number): Date[] {
+        const today: Date = new Date()
+        const currentDay: number = new Date().getDay()
+
+        const sunday: Date = new Date(today)
+        sunday.setDate(today.getDate() - currentDay)
+
+        sunday.setDate(sunday.getDate() + count * 7)
+        // console.log(sunday)
+
+        const weekArr: Date[] = [];
+
+        for (let i = 0; i < 7; i++) {
+            const nextDay = new Date(sunday);
+            nextDay.setDate(sunday.getDate() + i);
+            weekArr.push(nextDay);
+        }
+
+        return weekArr;
+    }
     
-
-// function getWeek(){
-//     const today = new Date
-
-//     const sunday = new Date(today)
-//     sunday.setDate(today.getDate() - today.getDay())
-
-//     const saturday = new Date(today)
-//     saturday.setDate(today.getDate() + (6 - today.getDay()))
-
-//     // console.log(`Week Start: ${sunday.toLocaleDateString()}`);
-//     // console.log(`Week End: ${saturday.toLocaleDateString()}`);
-
-//     // create an array to hold the days of the week
-//     // loop through the days to build the week.
-//     // each day/card will be clickable to get the event details
-//     // each card will have a button to add event
-//         // each event will have button to invite, accept, reject, edit, or delete
-
-// }
-// getWeek()
-
-function getSunday(){
-    const today = new Date()
-    const currentDay: number = new Date().getDay()
+    const currentWeek: Date[] = getSunday(weekCount)
     
-    const sunday = new Date(today)
-    sunday.setDate(today.getDate() - currentDay)
-    const weekArr: string[] = [];
-
-    for (let i = 0; i < 7; i++) {
-        const nextDay = new Date(sunday);
-        nextDay.setDate(sunday.getDate() + i);
-        weekArr.push(nextDay.toLocaleDateString());
-      }
-
-    console.log(weekArr)
-    
-    // setCalWeek(weekArr)
-}
-getSunday()
-// setCalWeek()
-    
+    useEffect(() => {
+        // const currentWeek: Date[] = getSunday(weekCount)
+        console.log(currentWeek)
+        // setCalWeek(currentWeek)
+    }, [weekCount])
 
 
-    return(
+    function checkDateIsToday(date: Date): boolean{
+        const today = new Date()
+        return date.toDateString() === today.toDateString()
+    }
+
+
+    return (
         // display a 1 week calendar
         // users can toggle to go to the next week with an arrow button
         // Week will start with Sunday - Saturday
         <>
-        <div>
+            <div>
+                {/* btns to go to prev week or next week */}
+                <button className="bg-emerald-600 text-black m-1 p-1" onClick={() => setWeekCount((prev) => prev - 1)} >Previous week</button>
+                <button className="bg-emerald-600 text-black m-1 p-1" onClick={() => setWeekCount((next) => next + 1)} >Next week</button>
 
-        </div>
-        
+                {/* calendar days go here */}
+                <div>
+                    {currentWeek.map((date, index) => (
+                        <Day key={index} date={date} isToday={checkDateIsToday(date)} />
+                    ))}
+                </div>
+                {/* <Day date={}/> */}
+            </div>
+
         </>
     )
 }
