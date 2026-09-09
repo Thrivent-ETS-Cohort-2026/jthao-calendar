@@ -135,7 +135,7 @@ export default function HomePage(){
         <div>
             <div>
                 <span>Hello {}</span>
-                <button onClick={handleLogOut}>Log out</button>
+                <button onClick={handleLogOut} className=" p-1 m-1 bg-emerald-50 text-black">Log out</button>
                 </div>
             <Calendar /> 
         </div>
