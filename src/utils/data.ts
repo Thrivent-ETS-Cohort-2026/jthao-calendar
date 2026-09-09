@@ -12,23 +12,23 @@ export interface Event {
     description: string,
     dateTime: string,
     location: string,
-    userId: string
+    userId: string,
+    attendees: InvitedUser
 }
 
-export interface EventInvite {
-    id: number,
-    eventId: string,
-    userId: string,
-    invitedList: [],
-    acceptedList: [],
-    declineList: []
-}
- export interface InvitedUser {
-    id: number,
-    userId: string,
+// export interface EventInvite {
+//     id: number,
+//     eventId: string,
+//     userId: string,
+//     invitedList: [],
+//     acceptedList: [],
+//     declineList: []
+// }
+export interface InvitedUser {
     email: string,
     fName: string,
-    lName: string
- }
+    lName: string,
+    status: "invited" | "pending" | "accepted"
+}
 
- export type UpdateEventPayload = Partial<Omit<Event, 'id' | 'userId'>>;
+export type UpdateEventPayload = Partial<Omit<Event, 'id' | 'userId'>>;

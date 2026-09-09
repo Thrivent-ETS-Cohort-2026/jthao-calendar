@@ -28,9 +28,9 @@ export default function Calendar() {
 
         return weekArr;
     }
-    
+
     const currentWeek: Date[] = getSunday(weekCount)
-    
+
     useEffect(() => {
         // const currentWeek: Date[] = getSunday(weekCount)
         console.log(currentWeek)
@@ -38,7 +38,7 @@ export default function Calendar() {
     }, [weekCount])
 
 
-    function checkDateIsToday(date: Date): boolean{
+    function checkDateIsToday(date: Date): boolean {
         const today = new Date()
         return date.toDateString() === today.toDateString()
     }

@@ -23,30 +23,30 @@
   ],
   "events": [
     {
-        "id": 1,
-        "title": "TechTalk",
-        "description": "Tailwind styled components",
-        "dateTime": "2026-09-04 3:30PM",
-        "location": "Home",
-        "userId": "1"
+      "id": 1,
+      "title": "TechTalk",
+      "description": "Tailwind styled components",
+      "dateTime": "2026-09-04 3:30PM",
+      "location": "Home",
+      "userId": "1"
     }
   ],
   "eventInvites": [
     {
-        "id": 1,
-        "eventId": "1",
-        "userId": "1",
-        "invitedList": [
+      "id": 1,
+      "eventId": "1",
+      "userId": "1",
+      "invitedList": [
         {
-            "id": 1,
-            "userId": "1",
-            "email": "thao@gmail.com",
-            "fName": "Thao",
-            "lName": "Jeff"
+          "id": 1,
+          "userId": "1",
+          "email": "thao@gmail.com",
+          "fName": "Thao",
+          "lName": "Jeff"
         }
-    ],
-    "acceptedList": [],
-    "declineList": []
+      ],
+      "acceptedList": [],
+      "declineList": []
     }
   ]
 }
