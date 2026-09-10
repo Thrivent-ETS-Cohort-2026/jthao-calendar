@@ -1,34 +1,28 @@
 export interface User {
-    id: number,
-    email: string,
-    password: string,
-    fName: string,
+    id: number
+    email: string
+    password: string
+    fName: string
     lName: string
 }
 
-export interface Event {
-    id: number,
-    title: string,
-    description: string,
-    dateTime: string,
-    location: string,
-    userId: string,
-    attendees: InvitedUser
-}
-
-// export interface EventInvite {
-//     id: number,
-//     eventId: string,
-//     userId: string,
-//     invitedList: [],
-//     acceptedList: [],
-//     declineList: []
-// }
 export interface InvitedUser {
-    email: string,
-    fName: string,
-    lName: string,
+    email: string
+    fName: string
+    lName: string
     status: "invited" | "pending" | "accepted"
 }
 
-export type UpdateEventPayload = Partial<Omit<Event, 'id' | 'userId'>>;
+export interface Event {
+    id: number
+    title: string
+    description: string
+    dateTime: string
+    location: string
+    userId: number
+    attendees?: InvitedUser[]
+}
+
+export interface CalendarProps {
+    currentUser: User
+}

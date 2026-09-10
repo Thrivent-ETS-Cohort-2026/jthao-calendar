@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
 import Day from './Day'
+import { getEvents } from '../api/events'
+import type { CalendarProps, Event as CalendarEvent } from "../utils/data"
 
-
-export default function Calendar() {
-
-    const [calWeek, setCalWeek] = useState<Date[]>([])
+export default function Calendar({ currentUser }: CalendarProps) {
+    const [events, setEvents] = useState<CalendarEvent[]>([])
     const [weekCount, setWeekCount] = useState<number>(0)
-
 
     function getSunday(count: number): Date[] {
         const today: Date = new Date()
@@ -16,53 +15,58 @@ export default function Calendar() {
         sunday.setDate(today.getDate() - currentDay)
 
         sunday.setDate(sunday.getDate() + count * 7)
-        // console.log(sunday)
 
-        const weekArr: Date[] = [];
+        const weekArr: Date[] = []
 
         for (let i = 0; i < 7; i++) {
-            const nextDay = new Date(sunday);
-            nextDay.setDate(sunday.getDate() + i);
-            weekArr.push(nextDay);
+            const nextDay = new Date(sunday)
+            nextDay.setDate(sunday.getDate() + i)
+            weekArr.push(nextDay)
         }
 
-        return weekArr;
+        return weekArr
     }
 
     const currentWeek: Date[] = getSunday(weekCount)
 
-    useEffect(() => {
-        // const currentWeek: Date[] = getSunday(weekCount)
-        console.log(currentWeek)
-        // setCalWeek(currentWeek)
-    }, [weekCount])
-
-
-    function checkDateIsToday(date: Date): boolean {
-        const today = new Date()
-        return date.toDateString() === today.toDateString()
+    // Fetch all events from json-server
+    async function loadEvents() {
+        const fetchedEvents = await getEvents()
+        if (fetchedEvents) {
+            setEvents(fetchedEvents)
+        }
     }
 
+    useEffect(() => {
+        loadEvents()
+    }, [weekCount])
 
     return (
-        // display a 1 week calendar
-        // users can toggle to go to the next week with an arrow button
-        // Week will start with Sunday - Saturday
         <>
-            <div>
-                {/* btns to go to prev week or next week */}
+            <div className="flex justify-between items-center p-2">
                 <button className="bg-emerald-600 text-black m-1 p-1" onClick={() => setWeekCount((prev) => prev - 1)} >Previous week</button>
                 <button className="bg-emerald-600 text-black m-1 p-1" onClick={() => setWeekCount((next) => next + 1)} >Next week</button>
-
-                {/* calendar days go here */}
-                <div>
-                    {currentWeek.map((date, index) => (
-                        <Day key={index} date={date} isToday={checkDateIsToday(date)} />
-                    ))}
-                </div>
-                {/* <Day date={}/> */}
             </div>
+            {currentWeek.map((date, index) => {
+                const dayEvents = events.filter((event) => {
+                    const eventDate = new Date(event.dateTime)
+                    const isSameDate = eventDate.toDateString() === date.toDateString()
+                    const isOwner = event.userId === currentUser.id
+                    const isInvited = event.attendees?.find(attendee => attendee.email === currentUser.email)
 
+                    return isSameDate && (isOwner || isInvited)
+                })
+
+                return (
+                    <Day 
+                        key={index} 
+                        date={date} 
+                        currentUser={currentUser}
+                        events={dayEvents}
+                        onEventChange={loadEvents}
+                    />
+                )
+            })}
         </>
     )
 }

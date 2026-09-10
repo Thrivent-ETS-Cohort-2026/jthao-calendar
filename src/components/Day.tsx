@@ -1,35 +1,27 @@
 import { useState } from "react"
-import { createEvent } from '../api/events'
-
+import { createEvent, deleteEvents } from '../api/events'
+import type { User, Event as CalendarEvent } from "../utils/data"
 
 interface DayProps {
     date: Date
-    isToday?: boolean
+    currentUser: User
+    events: CalendarEvent[]
+    onEventChange: () => void
 }
 
-export default function Day({ date, isToday }: DayProps) {
+export default function Day({ date, currentUser, events, onEventChange }: DayProps) {
 
     const [isCreateEvent, setIsCreateEvent] = useState<boolean>(false)
     const [title, setTitle] = useState<string>('')
     const [description, setDescription] = useState<string>('')
-    const [dateTime, setDateTime] = useState<string>()
+    const [dateTime, setDateTime] = useState<string>('')
     const [eventLocation, setEventLocation] = useState<string>('')
 
 
     const dayName: string = date.toLocaleDateString('en-US', { weekday: 'short' })
     const dayMonth: string = date.toLocaleDateString('en-US', { month: 'short' })
-    const dayYear: string = date.toLocaleDateString('en-US', { year: 'numeric' })
+    // const dayYear: string = date.toLocaleDateString('en-US', { year: 'numeric' })
     const dayNumber: number = date.getDate()
-
-    // console.log(dayName)
-    // console.log(dayMonth)
-    // console.log(dayYear)
-    // console.log(dayNumber)
-    // console.log(isToday)
-    // console.log(title)
-    // console.log(description)
-    // console.log(dateTime)
-    // console.log(eventLocation)
 
     function handleCreateEvent(event) {
         event.preventDefault()
@@ -44,9 +36,23 @@ export default function Day({ date, isToday }: DayProps) {
 
         const convertedDateTime = new Date(dateTime).toISOString()
 
-        // send to create Event API
-        await createEvent(title, description, convertedDateTime, eventLocation)
+        // Send currentUser.id along with event fields
+        await createEvent(currentUser.id, title, description, convertedDateTime, eventLocation)
+        
+        // Reset form fields
+        setTitle('')
+        setDescription('')
+        setDateTime('')
+        setEventLocation('')
         setIsCreateEvent(false)
+
+        // Refresh calendar events
+        onEventChange()
+    }
+
+    async function handleDelete(id: number) {
+        await deleteEvents(id)
+        onEventChange()
     }
 
     return (
@@ -57,8 +63,18 @@ export default function Day({ date, isToday }: DayProps) {
                         <h2 className="course-title">{dayMonth}</h2>
                         <p className='course-duration'>{dayName}</p>
                         <p className='course-level'>{dayNumber}</p>
+
+                        {/* Event List Display */}
+                        {events.map((evt) => (
+                            <div key={evt.id} className="bg-white p-1 m-1 border border-black">
+                                <p className="font-bold">{evt.title}</p>
+                                <p>{evt.description}</p>
+                                <p>{evt.location}</p>
+                                <button className="bg-red-400 p-1 m-1 text-xs" onClick={() => handleDelete(evt.id)}>Delete</button>
+                            </div>
+                        ))}
+
                         <button className="bg-green-300 p-1 m-1" onClick={handleCreateEvent}> Create event</button>
-                        {/* <button onClick={handleClick} className='bg-green-400 border border-green-500 hover:bg-green-800 hover:text-white' >View Details</button> */}
                         { isCreateEvent &&  
                         <form className="bg-white m-5 p-5">
                             <label htmlFor="event-title" className="m-1">Event title:</label>
