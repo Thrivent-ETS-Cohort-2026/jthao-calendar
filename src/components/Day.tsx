@@ -20,7 +20,6 @@ export default function Day({ date, currentUser, events, onEventChange }: DayPro
 
     const dayName: string = date.toLocaleDateString('en-US', { weekday: 'short' })
     const dayMonth: string = date.toLocaleDateString('en-US', { month: 'short' })
-    // const dayYear: string = date.toLocaleDateString('en-US', { year: 'numeric' })
     const dayNumber: number = date.getDate()
 
     function handleCreateEvent(event) {
@@ -36,17 +35,14 @@ export default function Day({ date, currentUser, events, onEventChange }: DayPro
 
         const convertedDateTime = new Date(dateTime).toISOString()
 
-        // Send currentUser.id along with event fields
         await createEvent(currentUser.id, title, description, convertedDateTime, eventLocation)
         
-        // Reset form fields
         setTitle('')
         setDescription('')
         setDateTime('')
         setEventLocation('')
         setIsCreateEvent(false)
 
-        // Refresh calendar events
         onEventChange()
     }
 
@@ -64,7 +60,6 @@ export default function Day({ date, currentUser, events, onEventChange }: DayPro
                         <p className='course-duration'>{dayName}</p>
                         <p className='course-level'>{dayNumber}</p>
 
-                        {/* Event List Display */}
                         {events.map((evt) => (
                             <div key={evt.id} className="bg-white p-1 m-1 border border-black">
                                 <p className="font-bold">{evt.title}</p>

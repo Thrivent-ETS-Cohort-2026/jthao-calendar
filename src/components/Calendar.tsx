@@ -29,7 +29,6 @@ export default function Calendar({ currentUser }: CalendarProps) {
 
     const currentWeek: Date[] = getSunday(weekCount)
 
-    // Fetch all events from json-server
     async function loadEvents() {
         const fetchedEvents = await getEvents()
         if (fetchedEvents) {
