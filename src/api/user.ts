@@ -3,7 +3,7 @@ import type { User } from '../utils/data.ts'
 
 export async function getUser(eMail: string): Promise<User[]> {
     try {
-        const response = await fetch(`http://localhost:3000/users?email=${eMail}`)
+        const response = await fetch(`http://localhost:3001/users?email=${eMail}`)
         if (!response.ok) {
             throw new Error(`Failed to fetch user data. Status: ${response.status}`);
         }
@@ -18,7 +18,7 @@ export async function getUser(eMail: string): Promise<User[]> {
 
 export async function checkUserByEmailAndPassword(eMail: string, pass: string): Promise<User> {
     try {
-        const response = await fetch(`http://localhost:3000/users?email=${eMail}&password=${pass}`)
+        const response = await fetch(`http://localhost:3001/users?email=${eMail}&password=${pass}`)
         if (!response.ok) {
             throw new Error(`Failed to fetch user data. Status: ${response.status}`);
         }
@@ -33,7 +33,7 @@ export async function checkUserByEmailAndPassword(eMail: string, pass: string): 
 
 export async function createUser(email: string, pass: string, firstName: string, lastName: string): Promise<User> {
     try {
-        const response = await fetch(`http://localhost:3000/users/`,
+        const response = await fetch(`http://localhost:3001/users/`,
             {
                 method: "POST",
                 headers: {

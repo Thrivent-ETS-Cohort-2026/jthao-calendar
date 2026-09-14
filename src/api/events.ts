@@ -2,7 +2,7 @@ import type { Event } from '../utils/data'
 
 export async function getEvents(): Promise<Event[]> {
     try {
-        const response = await fetch(`http://localhost:3000/events`)
+        const response = await fetch(`http://localhost:3001/events`)
         if (!response.ok) {
             throw new Error(`Failed to fetch user data. Status: ${response.status}`);
         }
@@ -16,7 +16,7 @@ export async function getEvents(): Promise<Event[]> {
 
 export async function createEvent(userId: number, title: string, desc: string, dateTime: string, location: string) {
     try {
-        const response = await fetch(`http://localhost:3000/events`,
+        const response = await fetch(`http://localhost:3001/events`,
             {
                 method: "POST",
                 headers: {
@@ -44,7 +44,7 @@ export async function createEvent(userId: number, title: string, desc: string, d
 
 export async function deleteEvents(id: number) {
     try {
-        const response = await fetch(`http://localhost:3000/events/${id}`,
+        const response = await fetch(`http://localhost:3001/events/${id}`,
             {
                 method: "DELETE",
                 headers: {
