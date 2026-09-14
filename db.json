@@ -37,6 +37,46 @@
       "dateTime": "2026-09-07T01:44:00.000Z",
       "location": "at home",
       "id": 2
+    },
+    {
+      "userId": 1,
+      "title": "Redux",
+      "description": "Learn Redux",
+      "dateTime": "2026-09-10T19:29:00.000Z",
+      "location": "Zoom",
+      "id": 3
+    },
+    {
+      "userId": 1,
+      "title": "testing",
+      "description": "removing preventDefault in handleSubmit",
+      "dateTime": "2026-09-10T19:54:00.000Z",
+      "location": "online",
+      "id": 4
+    },
+    {
+      "userId": 1,
+      "title": "Complete assignment",
+      "description": "Push to main",
+      "dateTime": "2026-09-10T19:56:00.000Z",
+      "location": "online",
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "title": "Complete assignment 2",
+      "description": "Push to main",
+      "dateTime": "2026-09-10T19:57:00.000Z",
+      "location": "online",
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "title": "Presentation",
+      "description": "Showcase your Calendar app",
+      "dateTime": "2026-09-08T19:58:00.000Z",
+      "location": "online",
+      "id": 7
     }
   ]
 }

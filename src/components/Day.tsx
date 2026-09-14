@@ -22,15 +22,15 @@ export default function Day({ date, currentUser, events, onEventChange }: DayPro
     const dayMonth: string = date.toLocaleDateString('en-US', { month: 'short' })
     const dayNumber: number = date.getDate()
 
-    function handleCreateEvent(event) {
-        event.preventDefault()
+    function handleCreateEvent() {
+        // event.preventDefault()
         setIsCreateEvent(true)
         if (isCreateEvent){
             setIsCreateEvent(false)
         }
     }
 
-    async function handleSubmit(event){
+    async function handleSubmit(event: Event){
         event.preventDefault()
 
         const convertedDateTime = new Date(dateTime).toISOString()
