@@ -38,5 +38,23 @@ describe('HomePage Component', () => {
         expect(showSignUp).not.toBeInTheDocument();
     });
 
+    test('Calendar is not displayed by default and there is not log out button', () => {
+        const calendar = screen.queryByTestId('calendar');
+        const logoutBtn = screen.queryByRole('button', {name: 'Log out'});
+        expect(calendar).not.toBeInTheDocument();
+        expect(logoutBtn).not.toBeInTheDocument();
+    });
+
+    test('email and password is being captured', async () => {
+        const emailInput = screen.getByPlaceholderText('@email.com');
+        const passwordInput = screen.getByPlaceholderText('Enter password');
+
+        await userEvent.type(emailInput, 'test@example.com');
+        await userEvent.type(passwordInput, 'password123');
+
+        expect(emailInput).toHaveValue('test@example.com');
+        expect(passwordInput).toHaveValue('password123');
+    });
+
     
 })
