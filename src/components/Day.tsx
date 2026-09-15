@@ -56,9 +56,9 @@ export default function Day({ date, currentUser, events, onEventChange }: DayPro
             <div>
                 <div className="card bg-emerald-200 p-1 m-1" >
                     <div className="card-container text-black" >
-                        <h2 className="course-title">{dayMonth}</h2>
-                        <p className='course-duration'>{dayName}</p>
-                        <p className='course-level'>{dayNumber}</p>
+                        <h2>{dayMonth}</h2>
+                        <p>{dayName}</p>
+                        <p>{dayNumber}</p>
 
                         {events.map((evt) => (
                             <div key={evt.id} className="bg-white p-1 m-1 border border-black">
